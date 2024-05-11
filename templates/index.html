@@ -6,15 +6,28 @@
     <title>Nutrients Tracker</title>
     <link rel="stylesheet" type="text/css" href="/static/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 <body>
     
     <h1 id='welcome_msg'>Welcome to Nutrients Tracker</h1>
     <div class="search-container">
-        <form action="/" method="POST">
+        <form action="#" method="POST">
             <input type="search" name="query" placeholder="Search..."/>
             <button type="submit" > <i class = 'fa fa-search'></i> </button>
         </form>
+    </div>
+
+    <div id = "content">
+        {% if results %}
+        <h2>{{ results.Name }}</h2>
+        <ul>
+            {% for nutrient in results.Nutrients %}
+                <li>{{ nutrient.name }}: {{ nutrient.value }} {{ nutrient.unit }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
     </div>
     
 </body>
