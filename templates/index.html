@@ -20,13 +20,18 @@
 
     <div id = "content">
         {% if results %}
+        <div id = 'foodname'>
         <h2>{{ results.Name }}</h2>
+        </div>
+        <div id='nutrientinfo'>
+            <h2>{{ 'Nutrients'}}</h2>
         <ul>
             {% for nutrient in results.Nutrients %}
                 <li>{{ nutrient.name }}: {{ nutrient.value }} {{ nutrient.unit }}</li>
             {% endfor %}
         </ul>
         {% endif %}
+        </div>
 
     </div>
     

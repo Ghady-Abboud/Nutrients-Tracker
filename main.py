@@ -16,7 +16,7 @@ import requests
 
 app = Flask(__name__)
 
-@app.route('/foods/search') 
+#@app.route('/foods/search') 
 def search(query): # Food Search function 
 
     #query = request.args.get('query') # This gets the query from the user then appends it to the api url
