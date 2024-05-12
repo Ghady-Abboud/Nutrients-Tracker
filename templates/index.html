@@ -14,26 +14,44 @@
     <div class="search-container">
         <form action="#" method="POST">
             <input type="search" name="query" placeholder="Search..."/>
-            <button type="submit" > <i class = 'fa fa-search'></i> </button>
+            <button type="submit"> <i class = 'fa fa-search'></i> </button>
         </form>
     </div>
 
-    <div id = "content">
+    <div class = "data_display">
+
         {% if results %}
-        <div id = 'foodname'>
-        <h2>{{ results.Name }}</h2>
-        </div>
-        <div id='nutrientinfo'>
-            <h2>{{ 'Nutrients'}}</h2>
+
+        <table class='table_style'>
+        
+            <thead>
+                <tr>
+                    <th class='food_header'>{{ results.Name }}</th>
+                    <th class = 'nutrient_header'>Nutrients</th>
+                </tr>
+            </thead>
+        <tbody>
+        <div id ='nutrient_info'>
         <ul>
             {% for nutrient in results.Nutrients %}
-                <li>{{ nutrient.name }}: {{ nutrient.value }} {{ nutrient.unit }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
+                
+                <tr>
+                    <td>{{ nutrient.name }}</td>
+                    <td>{{ nutrient.value }} {{ nutrient.unit }}</td>
+                </tr>
+                
+                {% endfor %}
+        </tbody>
         </div>
 
+        </ul>
+        {% endif %}
+        
+
+        </table>
+        
     </div>
+
     
 </body>
 </html>
