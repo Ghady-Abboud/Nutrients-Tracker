@@ -1,4 +1,10 @@
 /* Style for the search container */
+
+.welcome_msg{
+  text-align: center;
+  padding-top: 50px;
+}
+
 .search-container {
     display: flex;
     align-items: center;
@@ -34,7 +40,8 @@ body {
 
 
 .data_display {
-  padding-left:150px;
+  padding-left:200px;
+  padding-top: 40px;
 }
 .table_style {
   border-collapse: collapse;
