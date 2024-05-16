@@ -6,52 +6,43 @@
     <title>Nutrients Tracker</title>
     <link rel="stylesheet" type="text/css" href="/static/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <link rel="stylesheet" type="text/css" href="/static/mediaqueries.css">
 </head>
 <body>
     
-    <div class = 'welcome_msg'> <h1>Welcome to Nutrients Tracker</h1></div>
+    <div class='welcome_msg'>
+        <h1>Welcome to Nutrients Tracker</h1>
+    </div>
+
     <div class="search-container">
         <form action="#" method="POST">
             <input type="search" name="query" placeholder="Search..."/>
-            <button type="submit"> <i class = 'fa fa-search'></i> </button>
+            <button type="submit"> <i class='fa fa-search'></i> </button>
         </form>
     </div>
 
-    <div class = "data_display">
-
+    <div class="data_display">
         {% if results %}
-
+        <div class='scrollable-table'>
         <table class='table_style'>
-        
             <thead>
                 <tr>
                     <th class='food_header'>{{ results.Name }}</th>
-                    <th class = 'nutrient_header'>Nutrients</th>
+                    <th class='nutrient_header'>Nutrients</th>
                 </tr>
             </thead>
-        <tbody>
-        <div id ='nutrient_info'>
-        <ul>
-            {% for nutrient in results.Nutrients %}
-                
+            <tbody>
+                {% for nutrient in results.Nutrients %}
                 <tr>
                     <td>{{ nutrient.name }}</td>
                     <td>{{ nutrient.value }} {{ nutrient.unit }}</td>
                 </tr>
-                
                 {% endfor %}
-        </tbody>
-        </div>
-
-        </ul>
-        {% endif %}
-        
-
+            </tbody>
         </table>
-        
     </div>
-
+        {% endif %}
+    </div>
     
 </body>
 </html>

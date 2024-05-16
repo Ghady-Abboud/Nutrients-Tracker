@@ -1,0 +1,17 @@
+@media screen and (max-width:1300px) {
+
+    .welcome_msg {
+        padding-top: 15px;
+    }    
+    .search-container {
+        top:12ex;
+    }
+
+    .data_display {
+        padding-left: 400px;
+        padding-top: 120px;
+        width: 150px;
+        height: auto;
+    }
+
+}
