@@ -1,97 +1,86 @@
-'''
-
-/food/{fdcId} : Fetches details for one food item by FDC ID
-/foods : Fetches details for multiple food items using input FDC IDs
-/foods/list : Returns a paged list of foods, in the 'abridged' format
-/foods/search : Returns a list of foods that matched search (query) keywords
-
-'''
-
-from flask import Flask, jsonify, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, jsonify
 import requests
-
 
 app = Flask(__name__)
 
-def search(query): 
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    return render_template('index.html')
 
+@app.route('/search', methods=['POST'])
+def search():
+    query = request.form.get('query')
+    results, food_names = perform_search(query)
+    return jsonify({'results': results, 'food_names': food_names})
 
+def perform_search(query):
     API_URL = f"https://api.nal.usda.gov/fdc/v1/foods/search?api_key=n0REEKBm9KoyfBmL0UneSt5WSej8lzTmziYBpncl&query={query}"
-    response = requests.get(API_URL) 
-
+    response = requests.get(API_URL)
+    
     try:
         if response.status_code == 200:
             search_results = response.json()
             
             shorter_nutrients = {
-                "Protein" : "Protein",
-                "Total lipid (fat)" : "Fat",
+                "Protein": "Protein",
+                "Total lipid (fat)": "Fat",
                 "Energy": "Energy",
-                "Total Sugars":"Total Sugar",
-                "Fiber, total dietary" : "Fiber",
+                "Total Sugars": "Total Sugar",
+                "Fiber, total dietary": "Fiber",
                 "Calcium, Ca": "Calcium",
                 "Iron, Fe": "Iron",
-                "Sodium, Na":"Sodium",
-                "Vitamin A, IU":"Vitamin A",
-                "Vitamin C, total ascorbic acid" : "Vitamin C",
+                "Sodium, Na": "Sodium",
+                "Vitamin A, IU": "Vitamin A",
+                "Vitamin C, total ascorbic acid": "Vitamin C",
                 "Cholesterol": "Cholesterol",
                 "Fatty acids, total trans": "Trans Fat",
-                "Fatty acids, total saturated":"Saturated Fat",
-                "Carbohydrate, by difference" :"Carbohydrates"
+                "Fatty acids, total saturated": "Saturated Fat",
+                "Carbohydrate, by difference": "Carbohydrates"
             }
 
-            relevant_nutrients = ['Protein',    
-                                "Total lipid (fat)",
-                                "Energy",
-                                "Total Sugars",
-                                "Fiber, total dietary",
-                                "Calcium, Ca",
-                                "Iron, Fe",
-                                "Sodium, Na",
-                                "Vitamin A, IU",
-                                "Vitamin C, total ascorbic acid",
-                                "Cholesterol",
-                                "Fatty acids, total trans",
-                                "Fatty acids, total saturated",
-                                "Carbohydrate, by difference"
-                                ]
+            relevant_nutrients = [
+                'Protein',
+                "Total lipid (fat)",
+                "Energy",
+                "Total Sugars",
+                "Fiber, total dietary",
+                "Calcium, Ca",
+                "Iron, Fe",
+                "Sodium, Na",
+                "Vitamin A, IU",
+                "Vitamin C, total ascorbic acid",
+                "Cholesterol",
+                "Fatty acids, total trans",
+                "Fatty acids, total saturated",
+                "Carbohydrate, by difference"
+            ]
 
-            food_name = search_results['foods'][0]['description']
-            nutrients = [] 
-            for nutrient in search_results['foods'][0]['foodNutrients']:
-                if nutrient['nutrientName'] in relevant_nutrients:
-                    
-                    if nutrient['nutrientName'] in shorter_nutrients:
-                        # If it is, use the shorter version
-                        nutrient_name = shorter_nutrients[nutrient['nutrientName']]
-                        
-                    nutrient_info = {
-                        'name': nutrient_name,
-                        'value': nutrient['value'],
-                        'unit': nutrient['unitName']
-                    }
-                    
-                    nutrients.append(nutrient_info)
-            
-            filtered_data = {
-                'Name' : food_name,
-                'Nutrients' : nutrients
-            }
-            
-            return filtered_data 
-        
-    except:
-        return "Error: Unable to retrieve search results"
+            foods = search_results['foods']
+            food_names = [food['description'] for food in foods]
 
+            nutrients = []
+            if foods:
+                for nutrient in foods[0]['foodNutrients']:
+                    if nutrient['nutrientName'] in relevant_nutrients:
+                        nutrient_name = shorter_nutrients.get(nutrient['nutrientName'], nutrient['nutrientName'])
+                        nutrient_info = {
+                            'name': nutrient_name,
+                            'value': nutrient['value'],
+                            'unit': nutrient['unitName']
+                        }
+                        nutrients.append(nutrient_info)
 
-@app.route('/', methods = ['GET','POST'])
-def home():
-    if request.method == 'POST' :
-        new_query = request.form['query']
-        results = search(query = new_query)
-        return render_template('index.html',results=results)
-        
-    return render_template('index.html')
+                filtered_data = {
+                    'Name': foods[0]['description'],
+                    'Nutrients': nutrients
+                }
+            else:
+                filtered_data = {}
+
+            return filtered_data, food_names
+    except Exception as e:
+        print(f"Error: {e}")
+        return "Error: Unable to retrieve search results", []
 
 if __name__ == "__main__":
     app.run(debug=True)

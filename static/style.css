@@ -1,46 +1,44 @@
 /* Style for the search container */
-
-.welcome_msg{
+.welcome_msg {
   text-align: center;
   padding-top: 50px;
 }
 
 .search-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-
-  }
-  
-  /* Style for the search input */
-.search-container input[type="search"] {
-padding: 10px; /* Adjust padding to your liking */
-border: 2px solid #333; /* Border color and width */
-margin-right: 10px; /* Add right margin for spacing */
-width: 200px; /* Set width for the input field */
-font-size: 12;
-font-family: Verdana, Geneva, Tahoma, sans-serif;
-background-color: #f1f1f1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
-  
-  /* Style for the search button */
+
+/* Style for the search input */
+.search-container input[type="search"] {
+  padding: 10px; /* Adjust padding to your liking */
+  border: 2px solid #333; /* Border color and width */
+  margin-right: 10px; /* Add right margin for spacing */
+  width: 200px; /* Set width for the input field */
+  font-size: 12px; /* Corrected font size unit */
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: #f1f1f1;
+}
+
+/* Style for the search button */
 .search-container button {
-border: 2px solid #333; /* Border color and width */
-background: beige;
-color: #333; /* Button text color */
-font-size: 20px; /* Button text size */
-cursor: pointer; /* Show pointer cursor on hover */
-border-color: transparent;
+  border: 2px solid #333; /* Border color and width */
+  background: beige;
+  color: #333; /* Button text color */
+  font-size: 20px; /* Button text size */
+  cursor: pointer; /* Show pointer cursor on hover */
+  border-color: transparent;
 }
 
 body {
   background-color: beige;
 }
 
-
 .data_display {
-  padding-left:200px;
+  padding-left: 200px;
   padding-top: 40px;
 }
 
@@ -52,7 +50,6 @@ body {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
   width: 100%;
-  
 }
 
 .table_style thead tr {
@@ -60,18 +57,19 @@ body {
   color: #ffffff;
   text-align: left;
 }
+
 .table_style th,
 .table_style td {
   padding: 12px 15px;
-  
 }
+
 .table_style tbody tr {
   border-bottom: 1px solid #dddddd;
 }
-.table_style tbody tr:nth-of-type(even) {
-  background-color: #f3f3f3;  
-}
 
+.table_style tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
 
 .scrollable-table {
   overflow-y: scroll;
@@ -80,3 +78,25 @@ body {
   width: 420px;
 }
 
+.suggestions {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 40px; /* Adjust this value if needed to align with the search input */
+  background-color: white;
+  border: 1px solid #ddd;
+  max-height: 150px;
+  overflow-y: auto;
+  width: 200px; /* Match the width of the search input */
+  z-index: 1000;
+}
+
+.suggestions li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.suggestions li:hover {
+  background-color: #f1f1f1;
+}
