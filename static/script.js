@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     const searchBar = document.getElementById('searchbar');
     const dataDisplay = document.getElementById('data_display');
-    const suggestionsList = document.getElementById('suggestions');
+    const suggestionsList = document.getElementById('suggestions'); 
+    const ItemList = new Array()
 
     searchBar.addEventListener('input', function () {
         const query = searchBar.value.trim();
@@ -36,7 +37,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 suggestionItem.addEventListener('click', function () {
                     searchBar.value = name;
                     fetchFoodDetails(name);
-                    suggestionsList.innerHTML = '';
+                    suggestionsList.innerHTML = ''; // Clear suggestions when an item is clicked
                 });
                 suggestionsList.appendChild(suggestionItem);
             });
@@ -54,6 +55,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         .then(response => response.json())
         .then(data => {
             displayResults(data.results);
+            suggestionsList.innerHTML = ''; // Clear suggestions after fetching details
         })
         .catch(error => {
             console.error('Error:', error);
@@ -91,8 +93,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     </tbody>
                 </table>
             </div>
+            <button class='add_item' type='button'>Add To List</button>
         `;
 
         dataDisplay.innerHTML = tableContent;
+
+        const addButton = document.querySelector('.add_item');
+        addButton.addEventListener('click', () => {
+            if (!(ItemList.includes((results.Name,results.Nutrients)))){
+                ItemList.push((results.Name,results.Nutrients));
+
+            }
+            
+        });
     }
 });

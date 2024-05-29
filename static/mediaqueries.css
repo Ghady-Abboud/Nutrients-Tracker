@@ -1,4 +1,7 @@
-@media screen and (max-width:1300px) {
+
+/* This is for the large PC screen */ 
+
+@media screen and (max-width:1281px) {
 
     .welcome_msg {
         padding-top: 15px;
@@ -15,3 +18,10 @@
     }
 
 }
+
+/* This is for the laptop */ 
+@media screen and (max-width:1025px) {
+    
+}
+
+

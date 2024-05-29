@@ -4,12 +4,25 @@
   padding-top: 50px;
 }
 
+body {
+  background-color: beige;
+}
+
+
 .search-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  top: 100px;
   position: relative;
+}
+
+.data_display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  top:120px; /* Top needs to have a position */
 }
 
 /* Style for the search input */
@@ -33,51 +46,6 @@
   border-color: transparent;
 }
 
-body {
-  background-color: beige;
-}
-
-.data_display {
-  padding-left: 200px;
-  padding-top: 40px;
-}
-
-.table_style {
-  border-collapse: collapse;
-  margin: 25px 0;
-  font-size: 0.9em;
-  font-family: sans-serif;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  border-radius: 10px;
-  width: 100%;
-}
-
-.table_style thead tr {
-  background-color: #009879;
-  color: #ffffff;
-  text-align: left;
-}
-
-.table_style th,
-.table_style td {
-  padding: 12px 15px;
-}
-
-.table_style tbody tr {
-  border-bottom: 1px solid #dddddd;
-}
-
-.table_style tbody tr:nth-of-type(even) {
-  background-color: #f3f3f3;
-}
-
-.scrollable-table {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  max-height: 300px;
-  width: 420px;
-}
-
 .suggestions {
   list-style-type: none;
   margin: 0;
@@ -99,4 +67,59 @@ body {
 
 .suggestions li:hover {
   background-color: #f1f1f1;
+}
+
+
+
+.scrollable-table {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 300px;
+  width: 420px;
+}
+
+
+.table_style {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  width: 100%;
+}
+
+
+.table_style thead tr {
+  background-color: #009879;
+  color: #ffffff;
+  text-align: left;
+}
+
+.table_style th,
+.table_style td {
+  padding: 12px 15px;
+}
+
+.table_style tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.table_style tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.add_item {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #009879;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.add_item:hover {
+  background-color: #007f65;
 }
