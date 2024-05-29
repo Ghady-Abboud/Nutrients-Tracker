@@ -94,6 +94,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 </table>
             </div>
             <button class='add_item' type='button'>Add To List</button>
+            <button class='mylist' type='button'>My List</button>
         `;
 
         dataDisplay.innerHTML = tableContent;
@@ -102,7 +103,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         addButton.addEventListener('click', () => {
             if (!(ItemList.includes((results.Name,results.Nutrients)))){
                 ItemList.push((results.Name,results.Nutrients));
-
             }
             
         });
