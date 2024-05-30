@@ -2,7 +2,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const searchBar = document.getElementById('searchbar');
     const dataDisplay = document.getElementById('data_display');
     const suggestionsList = document.getElementById('suggestions'); 
-    const ItemList = new Array()
+    const ItemList = new Array();
+    const modal = document.getElementById("myListModal");
+    const closeModal = document.querySelector(".close");
+    const itemListElement = document.getElementById('itemList');
 
     searchBar.addEventListener('input', function () {
         const query = searchBar.value.trim();
@@ -100,11 +103,46 @@ document.addEventListener('DOMContentLoaded', (event) => {
         dataDisplay.innerHTML = tableContent;
 
         const addButton = document.querySelector('.add_item');
+        const myListButton = document.querySelector('.mylist');
+
         addButton.addEventListener('click', () => {
-            if (!(ItemList.includes((results.Name,results.Nutrients)))){
-                ItemList.push((results.Name,results.Nutrients));
+            if (!ItemList.some(item => item[0] === results.Name)) {
+                ItemList.push([results.Name, results.Nutrients]);
+                console.log("This just executed");
             }
-            
         });
+
+        myListButton.addEventListener('click', () => {
+            displayMyList();
+            modal.style.display = "block";
+        });
+    }
+
+    function displayMyList() {
+        itemListElement.innerHTML = '';
+        ItemList.forEach(item => {
+            let listItem = `
+                <li>
+                    <h3>${item[0]}</h3>
+                    <ul>
+            `;
+            item[1].forEach(nutrient => {
+                listItem += `<li>${nutrient.name}: ${nutrient.value} ${nutrient.unit}</li>`;
+            });
+            listItem += `</ul></li>`;
+            itemListElement.innerHTML += listItem;
+        });
+    }
+
+    // Close the modal when the user clicks on <span> (x)
+    closeModal.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // Also close the modal when the user clicks anywhere outside of the modal
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
     }
 });
