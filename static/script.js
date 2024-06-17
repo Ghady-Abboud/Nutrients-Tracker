@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     const searchBar = document.getElementById('searchbar');
     const dataDisplay = document.getElementById('data_display');
-    const suggestionsList = document.getElementById('suggestions'); 
-    const ItemList = new Array();
+    const suggestionsList = document.getElementById('suggestions');
+    const ItemList = [];
     const modal = document.getElementById("myListModal");
     const closeModal = document.querySelector(".close");
     const itemListElement = document.getElementById('itemList');
@@ -96,19 +96,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     </tbody>
                 </table>
             </div>
-            <button class='add_item' type='button'>Add To List</button>
-            <button class='mylist' type='button'>My List</button>
+            <div class='button_container'>
+                <button class='add_item' type='button'>Add To List</button>
+                <button class='mylist' type='button'>My List</button>
+                <button class='recommendations_button' type='button'>Recommendations</button>
+            </div>
         `;
 
         dataDisplay.innerHTML = tableContent;
 
         const addButton = document.querySelector('.add_item');
         const myListButton = document.querySelector('.mylist');
+        const recommendationsButton = document.querySelector('.recommendations_button');
 
         addButton.addEventListener('click', () => {
             if (!ItemList.some(item => item[0] === results.Name)) {
                 ItemList.push([results.Name, results.Nutrients]);
-                console.log("This just executed");
             }
         });
 
@@ -116,6 +119,65 @@ document.addEventListener('DOMContentLoaded', (event) => {
             displayMyList();
             modal.style.display = "block";
         });
+
+        recommendationsButton.addEventListener('click', () => {
+            generate_recommendations();
+        });
+    }
+
+    function analyzeNutrients() {
+        const nutrientTotals = {};
+
+        ItemList.forEach(item => {
+            item[1].forEach(nutrient => {
+                if (!nutrientTotals[nutrient.name]) {
+                    nutrientTotals[nutrient.name] = 0;
+                }
+                nutrientTotals[nutrient.name] += nutrient.value;
+            });
+        });
+        return nutrientTotals;
+    }
+
+    function generate_recommendations() {
+        const nutrientTotals = analyzeNutrients();
+        const dailyRequirements = {
+            Protein: 56,
+            VitaminA: 9000,
+            Fiber: 30,
+            Iron: 15,
+            Calcium: 10,
+            Carbohydrates: 300,
+            VitaminC: 90,
+            Sugar: 40
+        };
+
+        const recommendations = [];
+
+        for (const [nutrient, total] of Object.entries(nutrientTotals)) {
+            if (dailyRequirements[nutrient] && total < dailyRequirements[nutrient]) {
+                recommendations.push({
+                    nutrient: nutrient,
+                    needed: dailyRequirements[nutrient] - total
+                });
+            }
+        }
+        displayRecommendations(recommendations);
+    }
+
+    function displayRecommendations(recommendations) {
+        if (recommendations.length == 0) {
+            alert("You have met your daily requirements");
+            return;
+        }
+
+        let recommendationMessage = 'Based on your current list, you need more of the following: \n';
+
+        recommendations.forEach(recommendation => {
+            recommendationMessage += `${recommendation.nutrient}: ${recommendation.needed} units \n`;
+        });
+
+        alert(recommendationMessage);
     }
 
     function displayMyList() {
